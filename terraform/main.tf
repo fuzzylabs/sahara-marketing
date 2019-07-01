@@ -10,7 +10,6 @@ resource "google_bigquery_table" "default" {
   project     = var.project
   table_id    = "${lookup(var.tables[count.index], "table_id")}"
   description = "${lookup(var.tables[count.index], "description")}"
-  #schema      = "${file(lookup(var.tables[count.index], "schema"))}"
 
   # Loading data into the table isn't native to Terraform right now
   # working around with local-exec to call out to bq

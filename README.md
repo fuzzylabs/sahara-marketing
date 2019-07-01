@@ -8,7 +8,7 @@
 
 ## How
 
-*Customer Segmentation*: Identify groups of customers that have similar attributes relevant to marketing ie. age, gender, spending habits.
+*Customer Segmentation*: Identify groups of customers that have similar attributes relevant to marketing e.g. age, gender, spending habits.
 
 ## Data
 
