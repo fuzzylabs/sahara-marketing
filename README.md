@@ -15,7 +15,7 @@
 
 ## The data
 
-The faked data for Sahara's CRM system along with their Google Analytics data. Based on data we found on [https://github.com/GoogleCloudPlatform/bigquery-ml-templates](Google's BigQuery machine-learning templates).
+The faked data for Sahara's CRM system along with their Google Analytics data. Based on data we found on [Google's BigQuery machine-learning templates](https://github.com/GoogleCloudPlatform/bigquery-ml-templates]).
 
 See [data](data).
 
@@ -27,7 +27,7 @@ See [data](data).
 
 ## The analysis
 
-See [analysis/README.md](data analysis README).
+See [data analysis README](analysis/README.md).
 
 ## Provisioning BigQuery
 
