@@ -12,13 +12,13 @@ DATASET=sahara_marketing
 SED_DATASET=s/__REPLACE_ME__/$PROJECT.$DATASET/g
 
 echo "Creating training set view"
-sed -e $SED_DATASET sql/training_view.sql | bq --location=$LOCATION query
+sed -e $SED_DATASET ../sql/training_view.sql | bq --location=$LOCATION query
 
 echo "Training clustering models"
 for k in {2..11}
 do
   SED_K=s/__K__/$k/g
-  sed -e $SED_DATASET -e $SED_K sql/model.sql | bq --location=$LOCATION query
+  sed -e $SED_DATASET -e $SED_K ../sql/model.sql | bq --location=$LOCATION query
 done
 
 # This view is used for analysing the Elbow point. Generating SQL in Bash is kind of horrific so we'll need to replace with something better!
@@ -28,7 +28,7 @@ N=11
 for k in {2..11}
 do
   SED_K=s/__K__/$k/g
-  SED_RESULT=`sed -e $SED_DATASET -e $SED_K sql/evaluate.sql`
+  SED_RESULT=`sed -e $SED_DATASET -e $SED_K ../sql/evaluate.sql`
   EVALUATION_QUERY="$EVALUATION_QUERY $SED_RESULT"
   if (("$k" < "$N"))
   then

@@ -1,20 +1,37 @@
-# sahara-marketing
+# Sahara AI-driven marketing example
 
-[Seth](https://medium.com/fuzzylabsai/deploying-ai-in-your-business-3adfd2b33d9e) is back and this time he wants to sell more stuff ... using Google's BigQuery to identify which customers are more likely to buy, Terraform to automate it all,
+[Seth](https://medium.com/fuzzylabsai/deploying-ai-in-your-business-3adfd2b33d9e) is back and this time he wants to sell more stuff, using Google's BigQuery to identify which customers are more likely to buy, Terraform to automate it all.
 
 **BigQuery** is Google's serverless, scalable data warehouse that enables training custom Machine Learning models using SQL.
 
 **Terraform** (by Hashicorp) is the definitive tool for provisioning Cloud resources. It enables 'everything' to be defined as code.
 
-## How
+## How this repository is organised
 
-*Customer Segmentation*: Identify groups of customers that have similar attributes relevant to marketing e.g. age, gender, spending habits.
+* `data` - the CRM data that is used as a basis for these examples
+* `analysis` - data analysis experiments in the form of Jupyter notebooks
+* `bigquery` - production-ready models for deployment into Google BigQuery
+* `terraform` - Terraform configuration for automated provisioning of data and models to the cloud
 
-## Data
+## The data
 
-Using synthetic (made up) data sources from Sahara's CRM system and their Google Analytics data. See [data](data)
+The faked data for Sahara's CRM system along with their Google Analytics data. Based on data we found on [https://github.com/GoogleCloudPlatform/bigquery-ml-templates](Google's BigQuery machine-learning templates).
 
-## Load the data into BigQuery
+See [data](data).
+
+## The problems we're trying to solve
+
+*Customer segmentation*: identify groups of customers that have similar attributes relevant for marketing e.g. age, gender, spending habits.
+
+*Repeat-buyer prediction*: given historical purchases, can we predict which customers will make more than one purchase?
+
+## The analysis
+
+See [analysis/README.md](data analysis README).
+
+## Provisioning BigQuery
+
+### Loading data into BigQuery
 
 First of all we need to create the BigQuery [dataset](https://cloud.google.com/bigquery/docs/datasets) and [tables](https://cloud.google.com/bigquery/docs/tables) with an appropriate schema. Once they are created we will [load the data](https://cloud.google.com/bigquery/docs/loading-data-local) into the tables from our local CSV files.
 
@@ -29,7 +46,7 @@ terraform plan
 terraform apply
 ```
 
-## Training a model
+### Training a model
 
 Once the data is loaded we can train a BigQuery model to break the customers into segments which helps us identify groups of customers by their age and other attributes. These groups are linked to lifetime value and annual revenue.
 
