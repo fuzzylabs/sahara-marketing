@@ -1,7 +1,7 @@
 #standardSQL
 
 -- This view is used as the basis for model training
-create view `__REPLACE_ME__.training_set` as
+create or replace view `__REPLACE_ME__.segmentation_training_set` as
 select
 `__REPLACE_ME__.users`.User_ID,
 `__REPLACE_ME__.accounts`.Account_Number,

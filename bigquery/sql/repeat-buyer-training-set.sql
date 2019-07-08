@@ -2,7 +2,7 @@
 
 -- This view is used as a basis for the repeat-buyer model
 
-create view `__REPLACE_ME__.repeat_buyer_training_set` as
+create or replace view `__REPLACE_ME__.repeat_buyer_training_set` as
 select
 State_Code,
 Industry,

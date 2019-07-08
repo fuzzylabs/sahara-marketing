@@ -11,29 +11,20 @@ DATASET=sahara_marketing
 
 SED_DATASET=s/__REPLACE_ME__/$PROJECT.$DATASET/g
 
-echo "Creating training set view"
-sed -e $SED_DATASET ../sql/training_view.sql | bq --location=$LOCATION query
+echo "Segmentation: creating training set view"
+#sed -e $SED_DATASET ../bigquery/sql/segmentation-training-set.sql | bq --location=$LOCATION query
 
-echo "Training clustering models"
-for k in {2..11}
-do
-  SED_K=s/__K__/$k/g
-  sed -e $SED_DATASET -e $SED_K ../sql/model.sql | bq --location=$LOCATION query
-done
+echo "Segmentation: training segmentation model"
+#sed -e $SED_DATASET ../bigquery/sql/segmentation-model.sql | bq --location=$LOCATION query
 
-# This view is used for analysing the Elbow point. Generating SQL in Bash is kind of horrific so we'll need to replace with something better!
-echo "Evaluating models"
-EVALUATION_QUERY=""
-N=11
-for k in {2..11}
-do
-  SED_K=s/__K__/$k/g
-  SED_RESULT=`sed -e $SED_DATASET -e $SED_K ../sql/evaluate.sql`
-  EVALUATION_QUERY="$EVALUATION_QUERY $SED_RESULT"
-  if (("$k" < "$N"))
-  then
-    EVALUATION_QUERY="$EVALUATION_QUERY union all"
-  fi
-done
+echo "Segmentation: model evaluation"
+#sed -e $SED_DATASET ../bigquery/sql/segmentation-evaluation.sql | bq --location=$LOCATION query
 
-bq --location=$LOCATION query --use_legacy_sql=false "create view $PROJECT.$DATASET.elbow_point as $EVALUATION_QUERY order by Size asc;"
+echo "Repeat Buyers: creating training set view"
+#sed -e $SED_DATASET ../bigquery/sql/repeat-buyer-training-set.sql | bq --location=$LOCATION query
+
+echo "Repeat Buyers: training clustering model"
+#sed -e $SED_DATASET ../bigquery/sql/repeat-buyer-model.sql | bq --location=$LOCATION query
+
+echo "Repeat Buyers: model evaluation"
+sed -e $SED_DATASET ../bigquery/sql/repeat-buyer-evaluation.sql | bq --location=$LOCATION query
