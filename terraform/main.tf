@@ -24,9 +24,9 @@ resource "google_bigquery_table" "default" {
 }
 
 resource "null_resource" "default" {
-  # Recreate the views and models whenever the size (num_bytes) of any table changes.
+  # Recreate the views and models whenever any of the tables are modified
   triggers = {
-    table_sizes = "${join(",", google_bigquery_table.default.*.num_bytes)}"
+    last_modified_time = "${join(",", google_bigquery_table.default.*.last_modified_time)}"
   }
   provisioner "local-exec" {
     command = "scripts/create-views-models.sh ${var.location} ${var.project} ${var.dataset_id}"

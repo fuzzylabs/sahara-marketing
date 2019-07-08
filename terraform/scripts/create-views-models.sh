@@ -2,9 +2,9 @@
 
 # Requirements: Google Cloud SDK (provides 'bq', the BigQuery command-line tool)
 
-LOCATION=${1:-europe-west2}
-PROJECT=${2:-fuzzylabs}
-DATASET=${3:-sahara_marketing}
+LOCATION=$1
+PROJECT=$2
+DATASET=$3
 
 SED_DATASET=s/__REPLACE_ME__/$PROJECT.$DATASET/g
 
