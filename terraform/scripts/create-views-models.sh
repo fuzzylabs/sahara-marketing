@@ -1,13 +1,10 @@
 #!/bin/bash
 
-# This trains a number of k-means clustering models with different values of k (the number of clusters)
-# We use that to find the optimal value of k by looking for the 'elbow point': https://en.wikipedia.org/wiki/Elbow_method_(clustering)
-#
 # Requirements: Google Cloud SDK (provides 'bq', the BigQuery command-line tool)
 
-LOCATION=europe-west2
-PROJECT=fuzzylabs
-DATASET=sahara_marketing
+LOCATION=${1:-europe-west2}
+PROJECT=${2:-fuzzylabs}
+DATASET=${3:-sahara_marketing}
 
 SED_DATASET=s/__REPLACE_ME__/$PROJECT.$DATASET/g
 

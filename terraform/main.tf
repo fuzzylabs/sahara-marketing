@@ -22,3 +22,13 @@ resource "google_bigquery_table" "default" {
     EOT
   }
 }
+
+resource "null_resource" "default" {
+  # Recreate the views and models whenever the size (num_bytes) of any table changes.
+  triggers = {
+    table_sizes = "${join(",", google_bigquery_table.default.*.num_bytes)}"
+  }
+  provisioner "local-exec" {
+    command = "scripts/create-views-models.sh ${var.location} ${var.project} ${var.dataset_id}"
+  }
+}
