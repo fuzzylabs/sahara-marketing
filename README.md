@@ -21,9 +21,19 @@ See [data](data).
 
 ## The problems we're trying to solve
 
-*Customer segmentation*: identify groups of customers that have similar attributes relevant for marketing e.g. age, gender, spending habits.
+### Customer segmentation
 
-*Repeat-buyer prediction*: given historical purchases, can we predict which customers will make more than one purchase?
+Identify groups of customers that have similar attributes relevant for marketing e.g. age, gender, spending habits. These groups are linked to lifetime value and annual revenue.
+
+We use a k-means clustering model to do this. This model takes `n` data points and clusters them into `k` clusters, so `k` must be greater than 0 and no larger than `n`. If we only have one cluster, then every customer belongs to the same marketing segment, so that doesn't tell us very much. Similarly, if we have `n` clusters then every customer will have their very own marketing segment, which isn't particularly helpful either.
+
+We want a sensible value for `k` that lies somewhere in-between. See the [customer segmentation jupyter notebook](analysis/customer-segmentation.ipynb) for more details.
+
+### Repeat-buyer prediction
+
+Given historical purchases and related activity, can we predict which customers will make more than one purchase?
+
+See the [repeat buyers jupyter notebook](analysis/repeat-buyers.ipynb) for more details.
 
 ## The analysis
 
@@ -31,7 +41,7 @@ See [data analysis README](analysis/README.md).
 
 ## Provisioning BigQuery
 
-### Loading data into BigQuery
+### Loading data into BigQuery and training models
 
 First of all we need to create the BigQuery [dataset](https://cloud.google.com/bigquery/docs/datasets) and [tables](https://cloud.google.com/bigquery/docs/tables) with an appropriate schema. Once they are created we will [load the data](https://cloud.google.com/bigquery/docs/loading-data-local) into the tables from our local CSV files.
 
@@ -46,19 +56,10 @@ terraform plan
 terraform apply
 ```
 
-### Training a model
-
-Once the data is loaded we can train a BigQuery model to break the customers into segments which helps us identify groups of customers by their age and other attributes. These groups are linked to lifetime value and annual revenue.
-
-We use a k-means clustering model to do this. This model takes `n` data points and clusters them into `k` clusters, so `k` must be greater than 0 and no larger than `n`. If we only have one cluster, then every customer belongs to the same marketing segment, so that doesn't tell us very much. Similarly, if we have `n` clusters then every customer will have their very own marketing segment, which isn't particularly helpful either.
-
-We want a sensible value for `k` that lies somewhere in-between. One approach to this is [Elbow Analysis](https://en.wikipedia.org/wiki/Elbow_method_(clustering)). In Elbow Analysis we train a number of alternative clustering models for various values of `k` and we pick the one that has the best trade-off between how spread out the data within clusters is and the number of clusters.
-
-To generate a series of alternative models:
-
-```
-cd terraform
-./scripts/segmentation-model.sh
-```
+This will do the following:
+  - Create the BigQuery DataSet
+  - Create tables within that DataSet
+  - Load the csv data into the tables, using 'autodetect' for the schema
+  - Create training views and models for both 'Customer Segmentation' and 'Repeat Buyers'
 
 You'll need the Google Cloud SDK installed and to be authenticated with your Google Cloud account to do this.
