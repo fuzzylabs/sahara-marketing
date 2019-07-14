@@ -2,3 +2,4 @@ jupyter
 pandas
 matplotlib
 sklearn
+git+https://github.com/SohierDane/BigQuery_Helper#egg=bq_helper
