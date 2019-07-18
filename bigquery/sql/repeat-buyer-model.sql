@@ -1,13 +1,14 @@
 #standardSQL
 
 -- This model predicts repeat-buyers based on a logistic regression
-
-create or replace model `__REPLACE_ME__.repeat_buyer_model`
-options(model_type='logistic_reg') as
-select
-  repeat_buyer as label,
-  ifnull(State_Code, "") as State_Code,
-  ifnull(Industry, "") as Industry,
-  size
- from
-  `__REPLACE_ME__.repeat_buyer_training_set`
+CREATE OR REPLACE MODEL `__REPLACE_ME__.repeat_purchase_model`
+OPTIONS(model_type='logistic_reg') AS
+SELECT
+    repeat_buyer AS label,
+    visits,
+    pageviews,
+    time_on_site,
+    age,
+    gender
+FROM
+ `__REPLACE_ME__.aggregate_purchases`
