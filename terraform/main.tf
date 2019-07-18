@@ -22,3 +22,13 @@ resource "google_bigquery_table" "default" {
     EOT
   }
 }
+
+resource "null_resource" "default" {
+  # Recreate the views and models whenever any of the tables are modified
+  triggers = {
+    last_modified_time = "${join(",", google_bigquery_table.default.*.last_modified_time)}"
+  }
+  provisioner "local-exec" {
+    command = "scripts/create-views-models.sh ${var.location} ${var.project} ${var.dataset_id}"
+  }
+}
